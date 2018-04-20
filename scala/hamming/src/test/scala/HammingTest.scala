@@ -56,12 +56,10 @@ class HammingTest extends FunSuite with Matchers {
   }
 
   test("disallow first strand longer") {
-    pending
     Hamming.distance("AATG", "AAA") should be (None)
   }
 
   test("disallow second strand longer") {
-    pending
     Hamming.distance("ATA", "AGTG") should be (None)
   }
 }

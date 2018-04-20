@@ -1,21 +1,10 @@
 object Hamming {
-  def distance(str: String, str1: String): Option[Int] = {
-    if (str.length == str1.length) {
-      Some(_distance(str, str1))
-    } else {
+  def distance(s1: String, s2: String): Option[Int] = {
+    if (s1.length != s2.length) {
       None
+    } else {
+      Some(s1.zip(s2)
+        .count(p => p._1 != p._2))
     }
-  }
-
-  private def _distance(str: String, str1: String): Int = {
-    str.toCharArray
-      .zip(str1.toCharArray)
-      .foldLeft(0) { (acc, curr) =>
-        if (curr._1 == curr._2) {
-          acc
-        } else {
-          acc + 1
-        }
-      }
   }
 }
