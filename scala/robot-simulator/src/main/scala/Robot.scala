@@ -29,11 +29,15 @@ case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
     }
   }
 
-  def simulate(movements: String):Robot = {
-    if (movements.isEmpty) this
-    else if (movements.startsWith("R")) this.turnRight.simulate(movements.tail)
-    else if (movements.startsWith("L")) this.turnLeft.simulate(movements.tail)
-    else this.advance.simulate(movements.tail)
+  def simulate(movements: String): Robot = {
+    movements.foldLeft(this) { (robot, movement) =>
+      movement match {
+        case 'R' => robot.turnRight
+        case 'L' => robot.turnLeft
+        case 'A' => robot.advance
+        case _ => robot
+      }
+    }
   }
 
 }
