@@ -12,7 +12,7 @@ object ArmstrongNumbers {
       .toInt
 
     number == criteria
-    
+
   }
 
 
