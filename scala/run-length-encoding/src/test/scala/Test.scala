@@ -5,6 +5,6 @@ class WIPTest extends FunSuite with Matchers {
 
   test("bla") {
     val seq: Seq[Char] = "AAABBBBB".toCharArray.toSeq
-    println(RunLengthEncoding.encodeInternal(seq, List()))
+    println(RunLengthEncoding.encode(seq, List()))
   }
 }

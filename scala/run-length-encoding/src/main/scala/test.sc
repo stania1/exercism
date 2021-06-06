@@ -15,4 +15,4 @@
 //
 
 val seq: Seq[Char] = "AAABBBBB".toCharArray.toSeq
-RunLengthEncoding.encodeInternal(seq, List())
+RunLengthEncoding.encode(seq, List())

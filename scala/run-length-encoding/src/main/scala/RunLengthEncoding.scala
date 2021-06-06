@@ -4,7 +4,7 @@ object RunLengthEncoding {
 
   def encode(input: String): String = {
     val seq: Seq[Char] = input.toCharArray.toSeq
-    val runLength = encodeInternal(seq, List())
+    val runLength = encode(seq, List())
     format(runLength)
   }
 
@@ -18,16 +18,17 @@ object RunLengthEncoding {
     }
   }
 
-  def encodeInternal(input: Seq[Char], acc: List[(Char, Int)]): List[(Char, Int)] = {
+  def encode(input: Seq[Char], acc: List[(Char, Int)]): List[(Char, Int)] = {
     if (input.isEmpty) return acc
-    if (acc.isEmpty) return encodeInternal(input.tail, List((input.head, 1)))
 
-    acc.last match {
-      case (char, count) if input.head == char => {
-        encodeInternal(input.tail, dropRight(acc) ++ List((char, count + 1)))
-      }
-      case (char, _) if input.head != char => {
-        encodeInternal(input.tail, acc ++ List((input.head, 1)))
+    input.foldLeft(acc) { (acc, head) =>
+      if (acc.isEmpty) {
+        List((head, 1))
+      } else {
+        acc.last match {
+          case (char, count) if head == char => dropRight(acc) ++ List((char, count + 1))
+          case (char, _) if head != char => acc ++ List((head, 1))
+        }
       }
     }
   }
