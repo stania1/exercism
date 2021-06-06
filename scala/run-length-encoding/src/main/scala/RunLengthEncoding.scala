@@ -3,8 +3,7 @@ import scala.annotation.tailrec
 object RunLengthEncoding {
 
   def encode(input: String): String = {
-    val seq: Seq[Char] = input.toCharArray.toSeq
-    val runLength = encode(seq, List())
+    val runLength = encode(input.toList, List())
     format(runLength)
   }
 
@@ -38,7 +37,7 @@ object RunLengthEncoding {
   }
 
   def decode(input: String): String = {
-    decode(input.toCharArray.toSeq, "")
+    decode(input.toList, "")
   }
 
   @tailrec
