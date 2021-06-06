@@ -1,3 +1,5 @@
+import scala.annotation.tailrec
+
 object RunLengthEncoding {
 
   def encode(input: String): String = {
@@ -39,6 +41,7 @@ object RunLengthEncoding {
     decode(input.toCharArray.toSeq, "")
   }
 
+  @tailrec
   private def decode(input: Seq[Char], acc: String, interimCount: String = ""): String = {
     if (input.isEmpty) return acc
 
@@ -50,8 +53,8 @@ object RunLengthEncoding {
         val char = input.tail.head
         decode(input.tail.tail, acc + (char.toString * finalCountForChar), "")
       }
-      case count if input.head.isDigit && input.tail.head.isDigit && interimCount.isEmpty =>
-        decode(input.tail, acc, count.toString)
+      case count if input.head.isDigit && input.tail.head.isDigit =>
+        decode(input.tail, acc, interimCount + count)
     }
   }
 
