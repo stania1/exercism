@@ -4,7 +4,10 @@ import org.scalatest.{Matchers, FunSuite}
 class WIPTest extends FunSuite with Matchers {
 
   test("bla") {
-    val seq: Seq[Char] = "AAABBBBB".toCharArray.toSeq
-    println(RunLengthEncoding.encode(seq, List()))
+//    val seq: Seq[Char] = "AAABBBBB".toCharArray.toSeq
+//    println(RunLengthEncoding.encode(seq, List()))
+
+//    RunLengthEncoding.decode(seq, List())
+
   }
 }

@@ -1,5 +1,3 @@
-import scala.annotation.tailrec
-
 object RunLengthEncoding {
 
   def encode(input: String): String = {
@@ -8,7 +6,7 @@ object RunLengthEncoding {
     format(runLength)
   }
 
-  def format(runLength: List[(Char, Int)]): String = {
+  private def format(runLength: List[(Char, Int)]): String = {
     runLength.foldLeft("") { (acc, head) =>
       head match {
         case (char, count) if count != 1 => s"${acc}${count}${char}"
@@ -33,8 +31,28 @@ object RunLengthEncoding {
     }
   }
 
-  def dropRight(l: List[(Char, Int)]): List[(Char, Int)] = {
+  private def dropRight(l: List[(Char, Int)]): List[(Char, Int)] = {
     l.reverse.tail.reverse
+  }
+
+  def decode(input: String): String = {
+    decode(input.toCharArray.toSeq, "")
+  }
+
+  private def decode(input: Seq[Char], acc: String, interimCount: String = ""): String = {
+    if (input.isEmpty) return acc
+
+    input.head match {
+      // not the most readable..
+      case char if !input.head.isDigit => decode(input.tail, acc + char)
+      case count if input.head.isDigit && !input.tail.head.isDigit => {
+        val finalCountForChar = (interimCount + count).toInt
+        val char = input.tail.head
+        decode(input.tail.tail, acc + (char.toString * finalCountForChar), "")
+      }
+      case count if input.head.isDigit && input.tail.head.isDigit && interimCount.isEmpty =>
+        decode(input.tail, acc, count.toString)
+    }
   }
 
 }
