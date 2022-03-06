@@ -65,7 +65,7 @@ class Tournament
     def to_s
         @teams
             .values
-            .sort_by { |team| -team.points } # sort by points, descending order 
+            .sort_by { |team| [-team.points, team.name] } # sort by points, descending order first, if not, name ascending
             .map { |team|
                 team.to_s + "\n"
             }
