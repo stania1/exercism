@@ -29,6 +29,8 @@ class Tournament
             tournament.record_win(elements[0], elements[1])
         elsif result == "loss"
             tournament.record_loss(elements[0], elements[1])
+        elsif result == "draw"
+            tournament.record_draw(elements[0], elements[1])
         end
         tournament
     end
@@ -49,6 +51,11 @@ class Tournament
 
     def record_loss(losing_team_name, winning_team_name)
         record_win(winning_team_name, losing_team_name)
+    end
+
+    def record_draw(team1, team2)
+        @teams[team1].record_draw!
+        @teams[team2].record_draw!
     end
 
     def to_s
