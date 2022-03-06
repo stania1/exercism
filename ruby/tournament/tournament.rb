@@ -10,29 +10,27 @@ class Tournament
     HEADER = "Team                           | MP |  W |  D |  L |  P\n"
     
     def self.tally(input)
-        tournament = process_input(input)
+        tournament = Tournament.from(input)
 
         HEADER + tournament.to_s
     end
 
-    def self.process_input(input)
+    def self.from(input)
         return if input.rstrip.empty?
 
         tournament = Tournament.new
 
         input.lines.each { |line|
-            elements = line.split(";")
+            team1, team2, result = line.split(";")
         
-            tournament.add_team(elements[0])
-            tournament.add_team(elements[1])
-            result = elements[2].strip
+            result.strip!
     
             if result == "win"
-                tournament.record_win(elements[0], elements[1])
+                tournament.record_win(team1, team2)
             elsif result == "loss"
-                tournament.record_loss(elements[0], elements[1])
+                tournament.record_loss(team1, team2)
             elsif result == "draw"
-                tournament.record_draw(elements[0], elements[1])
+                tournament.record_draw(team1, team2)
             end
         }
 
@@ -40,13 +38,9 @@ class Tournament
     end
 
     def initialize
-        @teams = {}
+        @teams = Hash.new { |hash, key| hash[key] = TeamRecord.new(key) }
     end
 
-    def add_team(name)
-        return if @teams.has_key?(name)
-        @teams[name] = TeamRecord.new(name)
-    end
 
     def record_win(winning_team_name, losing_team_name)
         @teams[winning_team_name].record_win!
@@ -75,6 +69,9 @@ end
 
 class TeamRecord
 
+    WINNING_POINTS = 3
+    DRAW_POINTS = 1
+
     def initialize(name)
         @name = name
         @matches_played = 0
@@ -94,7 +91,7 @@ class TeamRecord
 
     def record_win!
        @matches_won += 1
-       @points += 3
+       @points += WINNING_POINTS
        record_played!
     end
 
@@ -105,15 +102,18 @@ class TeamRecord
 
     def record_draw!
         @matches_drawn += 1
-        @points += 1
+        @points += DRAW_POINTS
        record_played!
-    end
-
-    private def record_played!
-        @matches_played += 1
     end
 
     def to_s
         "#{name.ljust(31)}|#{@matches_played.to_s.rjust(3)} |  #{@matches_won} |  #{@matches_drawn} |  #{@matches_lost} |  #{@points}"
     end
+
+    private
+    
+    def record_played!
+        @matches_played += 1
+    end
+
 end
