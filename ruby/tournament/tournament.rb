@@ -18,20 +18,24 @@ class Tournament
     def self.process_input(input)
         return if input.rstrip.empty?
 
-        elements = input.split(";")
-
         tournament = Tournament.new
-        tournament.add_team(elements[0])
-        tournament.add_team(elements[1])
-        result = elements[2].strip
 
-        if result == "win"
-            tournament.record_win(elements[0], elements[1])
-        elsif result == "loss"
-            tournament.record_loss(elements[0], elements[1])
-        elsif result == "draw"
-            tournament.record_draw(elements[0], elements[1])
-        end
+        input.lines.each { |line|
+            elements = line.split(";")
+        
+            tournament.add_team(elements[0])
+            tournament.add_team(elements[1])
+            result = elements[2].strip
+    
+            if result == "win"
+                tournament.record_win(elements[0], elements[1])
+            elsif result == "loss"
+                tournament.record_loss(elements[0], elements[1])
+            elsif result == "draw"
+                tournament.record_draw(elements[0], elements[1])
+            end
+        }
+
         tournament
     end
 

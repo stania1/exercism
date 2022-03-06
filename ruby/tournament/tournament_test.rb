@@ -72,7 +72,6 @@ class TournamentTest < Minitest::Test
   end
 
   def test_there_can_be_more_than_one_match
-    skip
     input = <<~INPUT
       Allegoric Alaskans;Blithering Badgers;win
       Allegoric Alaskans;Blithering Badgers;win
