@@ -23,8 +23,13 @@ class Tournament
         tournament = Tournament.new
         tournament.add_team(elements[0])
         tournament.add_team(elements[1])
-        tournament.record_win(elements[0], elements[1])
+        result = elements[2].strip
 
+        if result == "win"
+            tournament.record_win(elements[0], elements[1])
+        elsif result == "loss"
+            tournament.record_loss(elements[0], elements[1])
+        end
         tournament
     end
 
@@ -42,10 +47,18 @@ class Tournament
         @teams[losing_team_name].record_loss!
     end
 
+    def record_loss(losing_team_name, winning_team_name)
+        record_win(winning_team_name, losing_team_name)
+    end
+
     def to_s
-        @teams.values.map { |team|
-            team.to_s + "\n"
-        }.join
+        @teams
+            .values
+            .sort_by { |team| -team.points } # sort by points, descending order 
+            .map { |team|
+                team.to_s + "\n"
+            }
+            .join
     end
 end
 
@@ -62,6 +75,10 @@ class TeamRecord
 
     def name
         @name
+    end
+
+    def points
+        @points
     end
 
     def record_win!
