@@ -11,8 +11,6 @@ class Pangram
     ALPHABETS = ('a'..'z').to_a
 
     def self.pangram?(sentence)
-        return false if sentence.length == 0
-
         ALPHABETS.map { |a| sentence.downcase.include? a}.all?
     end
 end
