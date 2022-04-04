@@ -8,9 +8,11 @@ To get started with TDD, see the `README.md` file in your
 
 class Pangram
 
-    ALPHABETS = ('a'..'z').to_a
-
     def self.pangram?(sentence)
         ALPHABETS.map { |a| sentence.downcase.include? a}.all?
     end
+
+    private
+
+    ALPHABETS = ('a'..'z').to_a
 end
